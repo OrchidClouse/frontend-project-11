@@ -1,4 +1,3 @@
-
 const path = require("path")
 const autoprefixer = require("autoprefixer")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
@@ -14,8 +13,8 @@ module.exports = {
     topLevelAwait: true,
   },
   devServer: {
-    headers: { 
-        "Access-Control-Allow-Origin": "*"
+    headers: {
+      "Access-Control-Allow-Origin": "*",
     },
     static: path.resolve(__dirname, "dist"),
     port: 8080,
