@@ -2,6 +2,7 @@ import elements from "./utils.js"
 import mainHandler, { state } from "./handlers.js"
 
 const readyPost = () => {
+  let description
   const postsContainer = document.querySelector(".posts")
       const feedsContainer = document.querySelector(".feeds")
       const cardBorderDivPosts = document.createElement("div")
@@ -63,13 +64,20 @@ const readyPost = () => {
         postTitle.textContent = "Посты"
         btnInPostLi.textContent = "Просмотр"
         aInPostLi.textContent = title
-
+        description = desc
+          
         ulPosts.append(liPost)
         dataIdCounter++
+        return desc
+
+      })
+      document.querySelector('button[data-bs-toggle="modal"]').addEventListener('click', (e) => {
+        e.preventDefault()
+        console.log(document.querySelector('button[data-bs-toggle="modal"]').previousSibling)
+        console.log(postsIterate)
       })
 
       const feedsIterate = state.response.feeds.map(([title, desc]) => {
-        
         const liFeed = document.createElement("li")
         const titleFeed = document.createElement("h3")
         const descFeed = document.createElement("p")
@@ -86,6 +94,8 @@ const readyPost = () => {
         liFeed.prepend(titleFeed)
 
         ulFeeds.append(liFeed)
+        
+
       })
     }
       elements.form.reset()
@@ -93,6 +103,7 @@ const readyPost = () => {
       console.log(state.postErrors)
       state.postErrors = []
 }
+
 
 const createPost = () => {
 
@@ -106,8 +117,6 @@ const createPost = () => {
       readyPost()
       
     })
-    // state.posted = "success"
-    
 
 }
 
