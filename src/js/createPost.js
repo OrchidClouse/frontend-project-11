@@ -1,5 +1,5 @@
-import { elements } from "./utils.js"
-import mainHandler, { state, statusHandler } from "./handlers.js"
+import  elements  from "./utils.js"
+import mainHandler, { state } from "./handlers.js"
 
 
 const feedsContainer = elements.feedsContainer
@@ -7,15 +7,13 @@ const postsContainer = elements.postsContainer
 
 
 const createPost = () => {
-    if(statusHandler()){
-        elements.submitButton.addEventListener('click', (e) => {
+        elements.submitButton.addEventListener('click', async (e) => {
             e.preventDefault()
-            mainHandler(state)
+            await mainHandler(state)
             console.log(state.response.posts)
             const [title, link, desc] = state.response.posts
             postsContainer.append(title)
         })
-    }
 }
 
 

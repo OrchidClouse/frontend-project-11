@@ -14,4 +14,4 @@ const elements = {
     },
 }
 
-export {elements}
+export default elements
