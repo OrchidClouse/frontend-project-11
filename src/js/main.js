@@ -1,5 +1,5 @@
-import mainHandler from "./handlers.js"
-import createPost from "./createPost.js"
+import createPost from "./posts.js"
+import { state } from "./handlers.js"
 
 const main = () => {
   createPost()
