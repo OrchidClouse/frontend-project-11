@@ -1,6 +1,12 @@
 import elements from "./utils.js"
 import mainHandler, { state } from "./handlers.js"
 
+const checker = async (posts) => {
+  posts.forEach((link) => {
+    
+  })
+}
+
 const readyPost = () => {
   let description = []
   const postsContainer = document.querySelector(".posts")
