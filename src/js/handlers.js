@@ -9,8 +9,12 @@ let state = {
     posts: [],
     feeds: [],
   },
-  postErrors: [],
-  posted: "",
+  errors: {
+    parseError: "",
+    postErrors: [],
+  },
+  rssValid: '',
+  posted: false,
   usedUrl: "",
 }
 
@@ -18,14 +22,13 @@ const errorHandler = (message) => {
   elements.feedback.classList.remove("text-success")
   elements.feedback.classList.add("text-danger")
   elements.feedback.textContent = message
-  state.posted = false
-  state.postErrors.push(message)
+  state.errors.postErrors.push(message)
   return false
 }
 
 const buttonHandler = async (state) => {
-  const inputValue = elements.input.value
-  const { success, errors, data } = await valid(inputValue)
+  const url = elements.input.value
+  const { success, errors, data } = await valid(url)
   state.response.success = success
   state.response.errors = errors
   state.response.data = data
@@ -34,14 +37,20 @@ const buttonHandler = async (state) => {
 const statusHandler = (state) => {
   if (state.response.success === false) {
     errorHandler("Ссылка должна быть валидным URL")
-  } else if (state.usedUrl === elements.input.value) {
+  }else if(state.rssValid === null){
+    errorHandler("Ссылка не содержит валидный RSS")
+  }
+  else if(state.usedUrl === elements.input.value){
     errorHandler("RSS уже существует")
-  } else if (state.response.success === true) {
+  }
+  else if (state.rssValid === true && state.response.success === true) {
     elements.feedback.classList.remove("text-danger")
     elements.feedback.classList.add("text-success")
     elements.feedback.textContent = "RSS успешно загружен"
     state.posted = true
     return true
+  }else{
+    errorHandler("Нет сети")
   }
 }
 
@@ -51,6 +60,12 @@ const parseData = (state) => {
   const div = document.createElement("div")
   div.innerHTML = state.response.data
   const items = div.querySelectorAll("item")
+  const checkRss = div.querySelector('rss')
+  if(checkRss !== null){
+    state.rssValid = true
+  }else if(checkRss === null){
+    state.rssValid = null
+  }
   items.forEach((item) => {
     titles.push([
       item.querySelector("title").textContent,
@@ -65,16 +80,16 @@ const parseData = (state) => {
     ])
   })
   return [titles, feeds]
+
+  
 }
 
 export default async function mainHandler() {
   await buttonHandler(state)
-  if (statusHandler(state)) {
     const [posts, feeds] = parseData(state)
     state.response.posts = posts
     state.response.feeds = feeds
-    state.usedUrl = elements.input.value
-  }
+    statusHandler(state)
 }
 
-export { state }
+export { state, errorHandler }

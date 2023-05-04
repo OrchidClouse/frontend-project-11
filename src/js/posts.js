@@ -1,7 +1,7 @@
 import elements from "./utils.js"
 import mainHandler, { state } from "./handlers.js"
 
-const readyPost = (e) => {
+const readyPost = () => {
   let description = []
   const postsContainer = document.querySelector(".posts")
   const feedsContainer = document.querySelector(".feeds")
@@ -35,7 +35,7 @@ const readyPost = (e) => {
   ulPosts.classList.add("list-group", "border-0", "rounded-0")
 
   let dataIdCounter = 2
-  if (state.postErrors.length < 1) {
+  if (state.errors.postErrors.length < 1) {
     const postsIterate = state.response.posts.map(([title, link, desc]) => {
       const liPost = document.createElement("li")
       const aInPostLi = document.createElement("a")
@@ -69,9 +69,7 @@ const readyPost = (e) => {
       dataIdCounter++
     })
 
-    document
-      .querySelectorAll('button[data-bs-toggle="modal"]')
-      .forEach((btns) =>
+    document.querySelectorAll('button[data-bs-toggle="modal"]').forEach((btns) =>
         btns.addEventListener("click", (e) => {
           e.preventDefault()
           const header = e.target.previousSibling
@@ -105,8 +103,7 @@ const readyPost = (e) => {
       ulFeeds.append(liFeed)
     })
   }
-
-  document.addEventListener("click", (e) => {
+  document.querySelector('.posts').addEventListener("click", (e) => {
     const a = document.querySelectorAll(".fw-bold")
     a.forEach((elem) => {
       if (e.target === elem) {
@@ -117,18 +114,22 @@ const readyPost = (e) => {
 
   elements.form.reset()
   elements.input.focus()
-  console.log(state.postErrors)
-  state.postErrors = []
+  console.log(state.errors.postErrors)
+  state.posted = 'success'
+  state.errors.postErrors = []
 }
 
 const createPost = () => {
   elements.submitButton.addEventListener("click", async (e) => {
     e.preventDefault()
     await mainHandler(state)
-    if (state.postErrors >= 1 || state.posted) {
+    if ((state.errors.postErrors >= 1 || state.posted) && state.errors.postErrors <= 1) {
       elements.postsContainer.textContent = ""
       elements.feedsContainer.textContent = ""
+      state.usedUrl = elements.input.value
+      state.posted = 'failed'
     }
+    state.usedUrl = elements.input.value
     readyPost(e)
   })
 }
