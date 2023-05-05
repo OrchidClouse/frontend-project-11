@@ -18,12 +18,12 @@ let state = {
   usedUrl: "",
 }
 
-const errorHandler = (message) => {
+const generateError = (message) => {
   elements.feedback.classList.remove("text-success")
   elements.feedback.classList.add("text-danger")
   elements.feedback.textContent = message
   state.errors.postErrors.push(message)
-  return false
+  // return false
 }
 
 const buttonHandler = async (state) => {
@@ -36,12 +36,12 @@ const buttonHandler = async (state) => {
 
 const statusHandler = (state) => {
   if (state.response.success === false) {
-    errorHandler("Ссылка должна быть валидным URL")
+    generateError("Ссылка должна быть валидным URL")
   }else if(state.rssValid === null){
-    errorHandler("Ссылка не содержит валидный RSS")
+    generateError("Ссылка не содержит валидный RSS")
   }
   else if(state.usedUrl === elements.input.value){
-    errorHandler("RSS уже существует")
+    generateError("RSS уже существует")
   }
   else if (state.rssValid === true && state.response.success === true) {
     elements.feedback.classList.remove("text-danger")
@@ -50,7 +50,7 @@ const statusHandler = (state) => {
     state.posted = true
     return true
   }else{
-    errorHandler("Нет сети")
+    generateError("Нет сети")
   }
 }
 
@@ -61,9 +61,9 @@ const parseData = (state) => {
   div.innerHTML = state.response.data
   const items = div.querySelectorAll("item")
   const checkRss = div.querySelector('rss')
-  if(checkRss !== null){
+  if(checkRss){
     state.rssValid = true
-  }else if(checkRss === null){
+  }else{
     state.rssValid = null
   }
   items.forEach((item) => {
@@ -80,8 +80,6 @@ const parseData = (state) => {
     ])
   })
   return [titles, feeds]
-
-  
 }
 
 export default async function mainHandler() {
@@ -92,4 +90,4 @@ export default async function mainHandler() {
     statusHandler(state)
 }
 
-export { state, errorHandler }
+export { state, generateError, parseData }

@@ -1,11 +1,7 @@
 import elements from "./utils.js"
+import updatePosts from "./updateChecker.js"
 import mainHandler, { state } from "./handlers.js"
 
-const checker = async (posts) => {
-  posts.forEach((link) => {
-    
-  })
-}
 
 const readyPost = () => {
   let description = []
@@ -42,7 +38,7 @@ const readyPost = () => {
 
   let dataIdCounter = 2
   if (state.errors.postErrors.length < 1) {
-    const postsIterate = state.response.posts.map(([title, link, desc]) => {
+    state.response.posts.forEach(([title, link, desc]) => {
       const liPost = document.createElement("li")
       const aInPostLi = document.createElement("a")
       const btnInPostLi = document.createElement("button")
@@ -90,7 +86,7 @@ const readyPost = () => {
         })
       )
 
-    const feedsIterate = state.response.feeds.map(([title, desc]) => {
+    state.response.feeds.forEach(([title, desc]) => {
       const liFeed = document.createElement("li")
       const titleFeed = document.createElement("h3")
       const descFeed = document.createElement("p")
@@ -136,8 +132,10 @@ const createPost = () => {
       state.posted = 'failed'
     }
     state.usedUrl = elements.input.value
+    
     readyPost(e)
   })
+
 }
 
 export default createPost
