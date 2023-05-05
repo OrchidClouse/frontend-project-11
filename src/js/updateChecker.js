@@ -33,8 +33,15 @@ const postLinks = getPostsLinks(state)
 const promises = postLinks.map((url) => axios({
     url: proxyUrl(url),
 }).then((resp) => {
-    if(!postLinks.includes(resp.data.status.url)){
-        posts.unshift(resp.data.status.url)
+    if(postLinks.includes(resp.data.status.url)){
+        // console.log(postLinks)
+        // console.log(resp.data.status.url)
+        // console.log('if')
+        state.rerender = false
+    }else{
+        console.log('else')
+        posts.push(resp.data.status.url)
+        state.rerender = true
     }
 })
 .catch((err) => {

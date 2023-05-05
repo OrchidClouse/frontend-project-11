@@ -13,6 +13,7 @@ let state = {
     parseError: "",
     postErrors: [],
   },
+  rerender: false,
   rssValid: '',
   posted: false,
   usedUrl: "",
