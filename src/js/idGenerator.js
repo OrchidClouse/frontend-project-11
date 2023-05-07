@@ -1,7 +1,7 @@
 export default (counter) => {
-  let id = counter
+  let id = counter;
   return () => {
-    id -= 1
-    return id
-  }
-}
+    id -= 1;
+    return id;
+  };
+};
