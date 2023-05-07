@@ -14,6 +14,10 @@ RSS Reader is a web application that allows users to subscribe to RSS feeds and 
 - Mark posts as read or unread
 - View the latest posts from all feeds or from a specific feed
 
+## Demo
+
+You can access a live demo of the app [here](https://frontend-project-11-fawn-xi.vercel.app/).
+
 ## Getting started
 
 #### System Requirements
