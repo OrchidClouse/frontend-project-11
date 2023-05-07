@@ -1,5 +1,5 @@
 import "bootstrap"
 import "../css/styles.scss"
-import main from "./main.js"
+import render from "./main.js"
 
-main()
+render()

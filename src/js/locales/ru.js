@@ -1,23 +1,15 @@
 export default {
-    translation: {
-      messages: {
-        errors: {
-          already_exist_rss: 'RSS уже существует',
-          not_rss: 'Pecypc не содержит валидный RSS',
-          not_valid_url: 'Ссылка должна быть валидным URL',
-          network_error: 'Ошибка сети',
-        },
-        success: {
-          loaded: 'RSS успешно загружен',
-          loading: 'Идет загрузка',
-        },
-      },
-      headings: {
-        feeds: 'Фиды',
-        posts: 'Посты',
-      },
-      buttons: {
-        view: 'Просмотр',
-      },
+  translation: {
+    rssAdded: 'RSS успешно загружен',
+    errors: {
+      notValid: 'Ссылка должна быть валидным URL',
+      reLink: 'RSS уже существует',
+      noRss: 'Ресурс не содержит валидный RSS',
+      networkError: 'Ошибка сети',
+      default: 'Разработчик что-то начудил',
     },
-  };
+    feeds: 'Фиды',
+    posts: 'Посты',
+
+  },
+};
